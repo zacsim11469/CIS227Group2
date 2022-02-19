@@ -33,7 +33,8 @@ int main(int argc, char* argv[])
 	ReadFileToArray txtFile;
 	string word;
 	Hangman game;
-
+	string userName; 
+	 
 
 	//command line argument handling
 	//cout << "--------Command Line Arguments--------" << endl;
@@ -98,7 +99,8 @@ int main(int argc, char* argv[])
 				cout << "4 - Update One Word\n";
 				cout << "5 - Print List\n";
 				cout << "6 - Guess the Letters (Hangman!)\n";
-				cout << "7 - Return to Commands\n";
+				cout << "7 - Enter User Name \n";
+				cout << "8 - Return to Commands\n";
 
 				cin >> input;
 				//testing if input is an integer
@@ -213,7 +215,7 @@ int main(int argc, char* argv[])
 
 				case 6:
 					//Guess the Letters (Hangman)
-					cout << "\nPlease pick a number from 1 to 12: ";
+					cout << userName << " " << "\nPlease pick a number from 1 to 12: ";
 					cin >> input;
 
 					//checks if input is an integer
@@ -242,7 +244,7 @@ int main(int argc, char* argv[])
 					option = -1;
 
 					cout << "\nHangman!\n";
-					cout << "Input a single letter as a guess when prompted, and try not to get too many wrong guesses!\n\n";
+					cout << userName << " " << "Input a single letter as a guess when prompted, and try not to get too many wrong guesses!\n\n";
 					game.SetHangmanWord(word);
 
 					do
@@ -258,7 +260,7 @@ int main(int argc, char* argv[])
 								if (input == "Y" || input == "y")
 								{
 									game.Hint();
-									cout << "\nHere's a free letter!\nYou only get one, so guess wisely...\n\n" << endl;
+									cout << "\nHere's a free letter " << userName << "! \nYou only get one, so guess wisely...\n\n" << endl;
 									game.DisplayWordSpaces();
 									hintYN = true;
 								}
@@ -289,14 +291,18 @@ int main(int argc, char* argv[])
 					}
 					else
 					{
-						cout << "\nSorry! The word was: " << game.GetHangmanWord() << endl;
+						cout << "\nSorry " << userName << "! The word was: " << game.GetHangmanWord() << endl;
 						cout << "Better luck next time!" << endl;
 						game.GameClear();
 					}
 
 					break;
-
 				case 7:
+					cout << "\n Enter User Name: ";
+					cin >> userName;
+
+					break;
+				case 8:
 					//exits program
 					cout << "\nExiting Options . . ." << endl;
 					optionMenu = false;
