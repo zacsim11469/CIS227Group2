@@ -1,0 +1,16 @@
+Effective: 02.15.2022 8.30PM
+
+
+Hangman.h
+>merged files
+
+ReadFile.H
+>no change
+
+ArrayBuilder.h
+>no change
+
+Main.cpp
+>merged files
+>edited Hint Y/N? to accept both uppercase and lowercase Y and N
+>edited Hint Y/N? to keep asking for correct intput until a Y or N is entered
