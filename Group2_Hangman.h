@@ -20,6 +20,7 @@ class Hangman
 private:
 	string word;
 	int badGuesses;
+	unsigned int points = 0;
 	bool win = false;
 	bool foundLetter;
 	bool hintGiven = false;
@@ -46,12 +47,13 @@ public:
 	{
 		badGuesses = 0;
 		hintGiven = false;
+		points = 0;
 
 		wordVector.clear();
 		guessedLetters.clear();
 	}
 
-	void guess(char letter)
+	void Guess(char letter)
 	{
 		goodGuess = false;
 		
@@ -90,6 +92,7 @@ public:
 		BuildASCIIMan();
 		DisplayWordSpaces();
 		DisplayGuessedLetters();
+		SetPoints();
 		YouLose();
 		YouWin();
 	}
@@ -248,23 +251,26 @@ public:
 		return false;
 	}
 
-	bool YouWin()
+	void SetPoints()
 	{
-		unsigned int points = 0;
-
 		//Section compares each letter in wordVector to guessed letters
 		for (char wordVectorItem : wordVector)
 		{
-			for (char guessedLettersItem : guessedLetters)
+			if (tolower(wordVectorItem) == tolower(guessedLetters[guessedLetters.size()-1]))
 			{
-				if (tolower(wordVectorItem) == tolower(guessedLettersItem))
-				{
-					//On match, add a point.
-					points += 1;
-				}
+				//On match, add a point.
+				points += 1;
 			}
 		}
+		//extra points for guessing the entire word
+		if (points >= wordVector.size())
+		{
+			points += 5;
+		}
+	}
 
+	bool YouWin()
+	{
 		//Get points equal to the length of wordVector to win
 		if (points >= wordVector.size())
 		{
@@ -273,6 +279,12 @@ public:
 		}
 
 		return false;
+	}
+
+
+	bool GetWin()
+	{
+		return win;
 	}
 
 	//destructor
@@ -294,14 +306,14 @@ public:
 		return word;
 	}
 
-	bool GetWin()
-	{
-		return win;
-	}
-
 	int GetBadGuesses()
 	{
 		return badGuesses;
+	}
+
+	short unsigned int GetPoints()
+	{
+		return points;
 	}
 
 	bool GetHintGiven()
