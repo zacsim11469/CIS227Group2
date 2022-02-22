@@ -1,11 +1,12 @@
 /* File Name: Group2_Main.cpp
 *    Authors: Johnson, Pelton, Simmons, Thompson
 *	    Date: 01/30/2022
-*  Rev. Date: 02/15/2022
-*    Version: 0.4.3
+*  Rev. Date: 02/21/2022
+*    Version: 0.5.0
 */
 
 //POSSIBLE: convert all arrays to vectors
+
 
 #include <iostream>
 #include <fstream>
@@ -13,9 +14,11 @@
 #include <array>
 #include <vector>
 #include <list>
+#include <map>
 #include "Group2_ArrayBuilder.h"
 #include "Group2_ReadFile.h"
 #include "Group2_Hangman.h"
+#include "Group2_Leaderboard.h"
 
 using namespace std;
 
@@ -25,13 +28,14 @@ int main(int argc, char* argv[])
 	//declaring variables
 	bool mainMenu = true;
 	bool optionMenu = true;
-	string versionNumber = "0.4.3";
+	string versionNumber = "0.5.0";
 	string input;
+	string word;
 	unsigned short int choice = 0;
 	short int option;
+	short int score;
 	ArrayBuilder arrayClass;
 	ReadFileToArray txtFile;
-	string word;
 	Hangman game;
 
 
@@ -78,7 +82,7 @@ int main(int argc, char* argv[])
 		if (input == "-i")
 		{
 			//information command
-			cout << "\n--------Information:--------\n";                                                /*updated description*/
+			cout << "\n--------Information:--------\n";
 			cout << "Program Name:       Array Builder\n";
 			cout << "Authors:            Johnson, Pelton, Simmons, Thompson\n";
 			cout << "Description:        Initially creates an array from command line arguments.\n";
@@ -280,17 +284,17 @@ int main(int argc, char* argv[])
 						cin >> input;
 						//Only grabs first letter of input
 						game.guess(input[0]);
+
 					} while (!game.YouWin() && game.YouLose());
 
-					if (game.GetWin())
+					if (game.GetWin())                                 /*moved winning and losing messages to Hangman.h*/
 					{
-						cout << "\n\n\nWINNER! Good Job!\n\n" << endl;
+						game.gameWin();
 						game.GameClear();
 					}
 					else
 					{
-						cout << "\nSorry! The word was: " << game.GetHangmanWord() << endl;
-						cout << "Better luck next time!" << endl;
+						game.gameLose();
 						game.GameClear();
 					}
 
@@ -322,4 +326,4 @@ int main(int argc, char* argv[])
 
 
 	return 0;
-}
+};
