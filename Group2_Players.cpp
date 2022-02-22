@@ -19,12 +19,14 @@ class Player
 
     public:
 
+        //constructor
         Player()
         {
             username = "Player";
             points = 0;
         }
 
+        //set and get username
         void SetPlayerName(string name)
         {
             username = name;
@@ -34,6 +36,7 @@ class Player
             return username;
         }
 
+        //set and get points
         void SetPoints(int value)
         {
             points += value;
@@ -44,17 +47,18 @@ class Player
             return points;
         }
 
+
+        //-----LEADERBOARD METHODS-----
         void UpdateLeaderboard()
         {
             leaderboard.insert(make_pair(username, points));
         }
+        
         void ResetPlayer()
         {
             username = "Player";
             points = 0;
         }
-
-
 
         void PrintLeaderboard()
         {
@@ -79,6 +83,4 @@ class Player
 
             }
         }
-
 };
-
