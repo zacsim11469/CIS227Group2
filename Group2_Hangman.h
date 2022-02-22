@@ -7,7 +7,6 @@
 */
 
 //blueprints Hangman class
-//ERROR: YouWin() procs trice, proccing the score.correctWord() twice, adding +10 instead of +5 for a correct word
 
 #include <iostream>
 #include <string>
