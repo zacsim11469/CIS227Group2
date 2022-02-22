@@ -3,7 +3,7 @@
 *    Authors: Johnson, Pelton, Simmons, Thompson
 *       Date: 02/03/2022
 *  Rev. Date: 02/10/2022
-*    Version: 0.4.3
+*    Version: 0.5.0
 */
 
 //blueprints ReadFileToArray class
