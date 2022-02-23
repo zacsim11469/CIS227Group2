@@ -10,22 +10,23 @@
 
 using namespace std;
 
-multimap<string, int> leaderboard;
-
-
-class Player {
+class Player
+{
     private:
         string username;
         unsigned short int points;
+        multimap<string, int> leaderboard;
 
     public:
 
+        //constructor
         Player()
         {
             username = "Player";
             points = 0;
         }
 
+        //set and get username
         void SetPlayerName(string name)
         {
             username = name;
@@ -35,6 +36,7 @@ class Player {
             return username;
         }
 
+        //set and get points
         void SetPoints(int value)
         {
             points += value;
@@ -44,38 +46,41 @@ class Player {
         {
             return points;
         }
-        
+
+
+        //-----LEADERBOARD METHODS-----
         void UpdateLeaderboard()
         {
             leaderboard.insert(make_pair(username, points));
         }
+        
         void ResetPlayer()
         {
             username = "Player";
             points = 0;
         }
 
-};
-
-void PrintLeaderboard()
-{
-    short unsigned int num = -1;
-    short unsigned int i = 1;
-    multimap<string, int>::iterator LeaderboardIterator = leaderboard.begin();    
-
-    cout << "-----Leaderboard-----" << endl;
-
-    while (LeaderboardIterator != leaderboard.end())
-    {
-        cout << i << " - " << LeaderboardIterator->first << ": ";
-        cout << LeaderboardIterator->second << " Points" << endl;
-        i++;
-        LeaderboardIterator++;
-
-        if (i == 10)
+        void PrintLeaderboard()
         {
-            break;
+            short unsigned int num = -1;
+            short unsigned int i = 1;
+
+            multimap<string, int>::iterator LeaderboardIterator = leaderboard.begin();
+
+            cout << "--------Leaderboard--------" << endl;
+
+            while (LeaderboardIterator != leaderboard.end())
+            {
+                cout << i << " - " << LeaderboardIterator->first << ": ";
+                cout << LeaderboardIterator->second << " Points" << endl;
+                i++;
+                LeaderboardIterator++;
+
+                if (i == 10)
+                {
+                    break;
+                }
+
+            }
         }
-        
-    } 
-}
+};

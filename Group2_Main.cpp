@@ -6,6 +6,8 @@
 */
 
 //POSSIBLE: convert all arrays to vectors
+//ERROR: when entering new userName, cannot have spaces
+
 
 #include <iostream>
 #include <fstream>
@@ -13,9 +15,11 @@
 #include <array>
 #include <vector>
 #include <list>
+#include <map>
 #include "Group2_ArrayBuilder.h"
 #include "Group2_ReadFile.h"
 #include "Group2_Hangman.h"
+#include "Group2_Leaderboard.h"
 #include "Group2_Players.cpp"
 
 using namespace std;
@@ -27,17 +31,19 @@ int main(int argc, char* argv[])
 	bool mainMenu = true;
 	bool optionMenu = true;
 	bool exitHangman = false;
+
 	string versionNumber = "0.5.2";
 	string input;
+	string word;
+	string userName = "Player";
 	unsigned short int choice = 0;
 	short int option;
+	short int score;
 	ArrayBuilder arrayClass;
 	ReadFileToArray txtFile;
-	string word;
 	Hangman game;
-	string userName;
-	Player player; 
-	 
+	Player player;
+
 
 	//command line argument handling
 	//cout << "--------Command Line Arguments--------" << endl;
@@ -82,7 +88,7 @@ int main(int argc, char* argv[])
 		if (input == "-i")
 		{
 			//information command
-			cout << "\n--------Information:--------\n";                                                /*updated description*/
+			cout << "\n--------Information:--------\n";
 			cout << "Program Name:       Array Builder\n";
 			cout << "Authors:            Johnson, Pelton, Simmons, Thompson\n";
 			cout << "Description:        Initially creates an array from command line arguments.\n";
@@ -217,19 +223,47 @@ int main(int argc, char* argv[])
 					break;
 
 				case 6:
-					//Hangman
-					cout << "Please enter your name: ";
-					cin >> userName;
-					player.SetPlayerName(userName);
-					cout << "Welcome " << player.GetPlayerName() << "! ";
+					//Guess the Letters (Hangman)
+					cout << "\n--------HANGMAN--------" << endl;
+					
+					//sets userName
+					cout << "\nCurrent player: " << userName << endl;
+					cout << "Would you like to change player? (Y/N)" << endl;
+					cin >> input;
+					do
+					{
+						if (input == "Y" || input == "y")
+						{
+							cout << "\nPlease enter your name: ";
+							cin >> userName;
 
+							break;
+						}
+						else if (input == "N" || input == "n")
+						{
+							cout << "\nProceeding as " << userName << endl;
+							
+							break;
+						}
+						else
+						{
+							cout << "\nIncorrect Input" << endl;
+							cout << "\nCurrent player: " << userName << endl;
+							cout << "Would you like to change player? (Y/N)" << endl;
+							cin >> input;
+						}
+					} while ( (input == "Y") || (input == "N") || (input == "y") || (input == "n"));
+
+					//starts game with chosen userName
+					player.SetPlayerName(userName);
+					cout << "\nWelcome, " << player.GetPlayerName() << "!" << endl;
+					
 					//player continuously plays game until exit
 					do
 					{
-						//Guess the Letters (Hangman)
-						cout << "\nPlease pick a number from 1 to 12: ";
+						cout << endl;
+						cout << userName << ", please pick a number from 1 to 12: ";
 						cin >> input;
-
 						//checks if input is an integer
 						try
 						{
@@ -255,15 +289,15 @@ int main(int argc, char* argv[])
 						//Resets option value
 						option = -1;
 
-						cout << "\nHangman!\n";
-						cout << player.GetPlayerName()<< ", " << "input a single letter as a guess when prompted, and try not to get too many wrong guesses!\n\n";
+						cout << endl;
+						cout << userName << ", input a single letter as a guess when prompted, and try not to get too many wrong guesses!\n\n";
 						game.SetHangmanWord(word);
 
 						do
 						{
 							if (game.GetBadGuesses() > 3 && game.GetHintGiven() == false)
 							{
-								cout << "\nNeed a hint? Y/N" << endl;
+								cout << "\nNeed a hint? (Y/N)" << endl;
 								cin >> input;
 
 								bool hintYN = false;
@@ -272,7 +306,7 @@ int main(int argc, char* argv[])
 									if (input == "Y" || input == "y")
 									{
 										game.Hint();
-										cout << "\nHere's a free letter " << player.GetPlayerName() << "! \nYou only get one, so guess wisely...\n\n" << endl;
+										cout << "\nHere's a free letter, " << userName << "! \nYou only get one, so guess wisely...\n\n" << endl;
 										game.DisplayWordSpaces();
 										hintYN = true;
 									}
@@ -284,7 +318,7 @@ int main(int argc, char* argv[])
 									else
 									{
 										cout << "\nIncorrect Input" << endl;
-										cout << "\nNeed a hint? Y/N" << endl;
+										cout << "\nNeed a hint? (Y/N)" << endl;
 										cin >> input;
 									}
 								} while (!hintYN);
@@ -293,70 +327,76 @@ int main(int argc, char* argv[])
 							cout << "\nGuess a letter!" << endl;
 							cin >> input;
 							//Only grabs first letter of input
-							game.Guess(input[0]);
+							game.guess(input[0]);
+
 						} while (!game.YouWin() && game.YouLose());
 
 						if (game.GetWin())
 						{
-							cout << "\n\n\nWINNER! Good job " << userName << "!\n\n" << endl;
-							cout << "Points Earned: " << game.GetPoints() << endl;
-							player.SetPoints(game.GetPoints());
-							cout << "Total Points Earned: " << player.GetPoints() << endl;
+							game.gameWin();
+							player.SetPoints(game.gameTotalScore());
 							game.GameClear();
-							cout << "Would you like to play another round " << player.GetPlayerName() << "? (Y/N): ";
+
+							//Continue? (Y/N)
+							cout << "\nWould you like to play another round, " << player.GetPlayerName() << "? (Y/N): ";
 							cin >> input;
 							if (input == "Y" || input == "y")
 							{
-								
+								cout << "\nOkay, let's play again!" << endl << endl;
 							}
 							else if (input == "N" || input == "n")
 							{
+								cout << "\nThanks for playing, " << player.GetPlayerName() << "!" << endl << endl;
 								exitHangman = true;
 							}
-							
+
 							else
 							{
 								cout << "\nIncorrect Input" << endl;
-								cout << "\nWould you like to play another round " << player.GetPlayerName() << "? (Y/N): ";
+								cout << "\nWould you like to play another round, " << player.GetPlayerName() << "? (Y/N): ";
+
 								cin >> input;
 							}
 						}
 						else
 						{
-							cout << "\nSorry " << userName << "! The word was: " << game.GetHangmanWord() << endl;
-							cout << "Better luck next time!" << endl;
-							cout << "Points Earned: " << game.GetPoints() << endl;
-							player.SetPoints(game.GetPoints());
-							cout << "Total Points Earned: " << player.GetPoints() << endl;
+							game.gameLose();
+							player.SetPoints(game.gameTotalScore());
 							game.GameClear();
-							cout << "Would you like to play another round " << player.GetPlayerName() << "? (Y/N): ";
+
+							//Continue? (Y/N)
+							cout << "\nWould you like to play another round, " << player.GetPlayerName() << "? (Y/N): ";
 							cin >> input;
 							if (input == "Y" || input == "y")
 							{
-								cout << "Okay, let's play again!" << endl << endl;
+								cout << "\nOkay, let's play again!" << endl << endl;
 							}
 							else if (input == "N" || input == "n")
 							{
-								cout << "Thanks for playing " << player.GetPlayerName() << "!" << endl << endl;
+								cout << "\nThanks for playing, " << player.GetPlayerName() << "!" << endl << endl;
 								exitHangman = true;
 							}
-							
+
 							else
 							{
 								cout << "\nIncorrect Input" << endl;
-								cout << "\nWould you like to play another round " << player.GetPlayerName() << "? (Y/N): ";
+								cout << "\nWould you like to play another round, " << player.GetPlayerName() << "? (Y/N): ";
+
 								cin >> input;
 							}
 						}
 					} while (!exitHangman);
+
 					exitHangman = false;
-					cout << "Thanks for playing " << player.GetPlayerName() << "!" << endl << endl;
 					player.UpdateLeaderboard();
 					player.ResetPlayer();
 					break;
+            
 				case 7:
-					PrintLeaderboard();
+					//prints leaderboard
+					player.PrintLeaderboard();
 					break;
+            
 				case 8:
 					//exits program
 					cout << "\nExiting Options . . ." << endl;
@@ -383,4 +423,4 @@ int main(int argc, char* argv[])
 
 
 	return 0;
-}
+};

@@ -2,8 +2,8 @@
 /* File Name: Group2_Hangman.h
 *    Authors: Johnson, Pelton, Simmons, Thompson
 *       Date: 02/06/2022
-*  Rev. Date: 02/15/2022
-*    Version: 0.4.3
+*  Rev. Date: 02/21/2022
+*    Version: 0.5.0
 */
 
 //blueprints Hangman class
@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "Group2_Scorekeeper.h"         /*includeed scorekeeper.h*/
 
 using namespace std;
 
@@ -27,6 +28,8 @@ private:
 	bool goodGuess = false;
 	vector<char> wordVector;
 	vector<char> guessedLetters;
+	
+	Scorekeeper score;
 
 public:
 
@@ -51,6 +54,8 @@ public:
 
 		wordVector.clear();
 		guessedLetters.clear();
+
+		score.clearScore();                               /*added the clearScore*/
 	}
 
 	void Guess(char letter)
@@ -78,6 +83,7 @@ public:
 				cout << "\nYes, this word contains a(n): " << letter << endl;
 				goodGuess = true;
 				guessedLetters.push_back(tolower(letter));
+				score.correctLetter();                                     /*add +1 pt for each correct letter guess*/
 			}
 		}
 
@@ -319,5 +325,25 @@ public:
 	bool GetHintGiven()
 	{
 		return hintGiven;
+	}
+
+	void gameWin()                                   /*added methods to call upon winning or losing*/
+	{
+		score.correctWord();
+		cout << "\n\n\nWINNER! Good Job!" << endl;
+		cout << "Score: " << score.outputScore() << endl;
+	}
+
+	void gameLose()
+	{
+		cout << "\n\nSorry! The word was: " << GetHangmanWord() << endl;
+		cout << "\nScore: " << score.outputScore() << endl;
+		cout << "\nBetter luck next time!" << endl;
+	}
+
+	short int gameTotalScore()                         /*added method to output Scorekeeper*/
+	{
+		short int result = score.outputScore();
+		return result;
 	}
 };
