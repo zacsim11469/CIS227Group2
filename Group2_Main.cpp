@@ -2,7 +2,7 @@
 *    Authors: Johnson, Pelton, Simmons, Thompson
 *	    Date: 01/30/2022
 *  Rev. Date: 02/21/2022
-*    Version: 0.5.0
+*    Version: 0.5.2
 */
 
 //POSSIBLE: convert all arrays to vectors
@@ -31,7 +31,8 @@ int main(int argc, char* argv[])
 	bool mainMenu = true;
 	bool optionMenu = true;
 	bool exitHangman = false;
-	string versionNumber = "0.5.0";
+
+	string versionNumber = "0.5.2";
 	string input;
 	string word;
 	string userName = "Player";
@@ -353,6 +354,7 @@ int main(int argc, char* argv[])
 							{
 								cout << "\nIncorrect Input" << endl;
 								cout << "\nWould you like to play another round, " << player.GetPlayerName() << "? (Y/N): ";
+
 								cin >> input;
 							}
 						}
@@ -379,6 +381,7 @@ int main(int argc, char* argv[])
 							{
 								cout << "\nIncorrect Input" << endl;
 								cout << "\nWould you like to play another round, " << player.GetPlayerName() << "? (Y/N): ";
+
 								cin >> input;
 							}
 						}
@@ -387,15 +390,13 @@ int main(int argc, char* argv[])
 					exitHangman = false;
 					player.UpdateLeaderboard();
 					player.ResetPlayer();
-
 					break;
-
+            
 				case 7:
 					//prints leaderboard
 					player.PrintLeaderboard();
-
 					break;
-
+            
 				case 8:
 					//exits program
 					cout << "\nExiting Options . . ." << endl;

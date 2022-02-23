@@ -9,10 +9,12 @@
 //blueprints ArrayBuilder class
 //POSSIBLE: convert to using vector (instead of array)
 
+using namespace std;
+
 class ArrayBuilder
 {
 private:
-	std::string strArray[12];
+	string strArray[12];
 
 public:
 	ArrayBuilder()
@@ -20,7 +22,7 @@ public:
 		//constructor
 		for (unsigned short int i = 0; i < 12; i++)
 		{
-			strArray[i] = "placeholder" + std::to_string(i + 1);
+			strArray[i] = "placeholder" + to_string(i + 1);
 		}
 	}
 	~ArrayBuilder()
@@ -32,7 +34,7 @@ public:
 		//setter
 		strArray[x] = str;
 	}
-	std::string GetArrayBuilderValue(int x)
+	string GetArrayBuilderValue(int x)
 	{
 		//getter
 		return strArray[x];
@@ -42,7 +44,7 @@ public:
 	{
 		for (unsigned short int i = 0; i < 12; i++)
 		{
-			std::cout << strArray[i] << std::endl;
+			cout << strArray[i] << endl;
 		}
 	}
 };
