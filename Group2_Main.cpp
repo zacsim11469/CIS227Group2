@@ -20,7 +20,7 @@
 #include "Group2_ReadFile.h"
 #include "Group2_Hangman.h"
 #include "Group2_Leaderboard.h"
-#include "Group2_Players.cpp"
+#include "Group2_Players.h"
 
 using namespace std;
 
