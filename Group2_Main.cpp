@@ -327,7 +327,7 @@ int main(int argc, char* argv[])
 							cout << "\nGuess a letter!" << endl;
 							cin >> input;
 							//Only grabs first letter of input
-							game.guess(input[0]);
+							game.Guess(input[0]);
 
 						} while (!game.YouWin() && game.YouLose());
 
