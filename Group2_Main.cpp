@@ -2,7 +2,7 @@
 *    Authors: Johnson, Pelton, Simmons, Thompson
 *	    Date: 01/30/2022
 *  Rev. Date: 02/21/2022
-*    Version: 0.5.2
+*    Version: 0.5.4
 */
 
 //POSSIBLE: convert all arrays to vectors
@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
 	bool optionMenu = true;
 	bool exitHangman = false;
 
-	string versionNumber = "0.5.2";
+	string versionNumber = "0.5.4";
 	string input;
 	string word;
 	string userName = "Player";
