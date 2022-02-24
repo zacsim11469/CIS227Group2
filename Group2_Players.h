@@ -1,7 +1,8 @@
 /* File Name: Group2_Players.cpp
 *    Authors: Johnson, Pelton, Simmons, Thompson
-*	    Date: 02/19/2022
-*    Version: 0.5.2
+*	    Date: 02/21/2022
+*  Rev. Date: 02/22/2022
+*    Version: 0.5.3
 */
 
 #include <map>
@@ -15,7 +16,7 @@ class Player
     private:
         string username;
         unsigned short int points;
-        multimap<string, int> leaderboard;
+        multimap<int, string, std::greater<int> > leaderboard;
 
     public:
 
@@ -28,7 +29,7 @@ class Player
 
         //set and get username
         void SetPlayerName(string name)
-        {
+        {            
             username = name;
         }
 
@@ -51,7 +52,7 @@ class Player
         //-----LEADERBOARD METHODS-----
         void UpdateLeaderboard()
         {
-            leaderboard.insert(make_pair(username, points));
+            leaderboard.insert(make_pair(points, username));
         }
         
         void ResetPlayer()
@@ -62,21 +63,21 @@ class Player
 
         void PrintLeaderboard()
         {
-            short unsigned int num = -1;
             short unsigned int i = 1;
 
-            multimap<string, int>::iterator LeaderboardIterator = leaderboard.begin();
+            multimap<int, string>::iterator LeaderboardIterator = leaderboard.begin();
 
             cout << "--------Leaderboard--------" << endl;
 
             while (LeaderboardIterator != leaderboard.end())
             {
-                cout << i << " - " << LeaderboardIterator->first << ": ";
-                cout << LeaderboardIterator->second << " Points" << endl;
+                //prints Top Ten Leaderboard             
+                cout << i << " - " << LeaderboardIterator->second << ": ";
+                cout << LeaderboardIterator->first << " Points" << endl;
                 i++;
                 LeaderboardIterator++;
 
-                if (i == 10)
+                if (i == 11)
                 {
                     break;
                 }
